@@ -1,0 +1,38 @@
+hardware:
+  center_freq_hz: 3.1e9
+  power_dbm: -10.0
+  timeout_ms: 60000
+  reset_on_connect: true
+
+  # Leave sample_rate_hz empty to use the rate returned by the TX.
+  sample_rate_hz:
+
+  signal_generator:
+    visa: "TCPIP::169.254.2.20::INSTR"
+    remote_waveform_path: "/var/user/signal.wv"
+
+  analyzer:
+    visa: "TCPIP::169.254.177.255::5025::SOCKET"
+    remote_capture_path: "C:\\R_S\\Instr\\user\\capture.iq.tar"
+    record_length:
+    capture_multiplier: 2.0
+    auto_level: true
+
+run:
+  output_dir: "runs"
+  tag: "tone_demo"
+  dry_run: true
+  keep_rf_on: false
+
+tx:
+  target: "examples/tone_tx.py:generate"
+  params:
+    mode: "tone"
+    sample_rate_hz: 50.0e6
+    duration_s: 1.0e-3
+    tone_freq_hz: 1.0e6
+    amplitude: 0.7
+
+rx:
+  target: "examples/spectrum_rx.py:process"
+  params: {}
